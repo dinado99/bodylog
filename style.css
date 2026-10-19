@@ -1,0 +1,24 @@
+:root { --bg:#fff; --fg:#1d2433; --muted:#6b7280; --line:#e5e7eb; --accent:#2f7d5b; --card:#f8fafb; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#12161d; --fg:#e6e9ef; --muted:#9aa3b2; --line:#272d38; --accent:#4fb987; --card:#1a1f28; }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,-apple-system,"Noto Sans KR",sans-serif; }
+main { max-width:640px; margin:0 auto; padding:16px; }
+header { display:flex; justify-content:space-between; align-items:center; }
+h1 { font-size:1.4rem; margin:.5rem 0; }
+h2 { font-size:1.1rem; margin:0 0 .75rem; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+input, select, button { font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--fg); min-width:0; }
+button { background:var(--accent); color:#fff; border-color:var(--accent); cursor:pointer; }
+button.secondary, header button { background:transparent; color:var(--fg); border-color:var(--line); }
+form { display:flex; flex-direction:column; gap:8px; }
+.grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+.grid button { grid-column:1 / -1; }
+.row { display:flex; gap:8px; } .row button { flex:1; }
+ul { list-style:none; padding:0; margin:12px 0 0; }
+li { display:flex; justify-content:space-between; gap:8px; padding:8px 0; border-top:1px solid var(--line); }
+li button { padding:2px 8px; background:transparent; color:var(--muted); border-color:var(--line); }
+#msg { color:var(--muted); min-height:1.5em; }
+#msg.error { color:#d14343; }
+[hidden] { display:none !important; }
