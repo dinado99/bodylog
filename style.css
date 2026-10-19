@@ -96,6 +96,8 @@ canvas { width: 100% !important; margin-top: 18px; }
 ul { list-style: none; padding: 0; margin: 14px 0 0; }
 li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 2px; border-top: 1px solid var(--line); }
 li span { min-width: 0; overflow-wrap: anywhere; }
+li .d { color: var(--muted); font-size: .85rem; margin-right: 8px; }
+li b { font-weight: 800; }
 li button { flex: none; padding: 4px 10px; font-size: .8rem; font-weight: 600; color: var(--muted); background: transparent; }
 li button:hover { color: var(--danger); background: #fdecec; }
 
@@ -105,6 +107,5 @@ li button:hover { color: var(--danger); background: #fdecec; }
 [hidden] { display: none !important; }
 
 @media (max-width: 420px) {
-  .grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 1.5rem; }
 }

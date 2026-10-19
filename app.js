@@ -43,9 +43,11 @@ async function loadWeights() {
   list.replaceChildren();
   [...data].reverse().forEach((r) => {
     const li = el("li");
-    const fat = r.body_fat_pct != null ? ` · 체지방 ${r.body_fat_pct}%` : "";
+    const fat = r.body_fat_pct != null ? ` · 체지방 ${Number(r.body_fat_pct).toFixed(1)}%` : "";
     const memo = r.memo ? ` · ${r.memo}` : "";
-    li.append(el("span", `${r.log_date}  ${r.weight_kg}kg${fat}${memo}`));
+    const span = el("span");
+    span.append(el("span", r.log_date.slice(5).replace("-", "/"), { className: "d" }), el("b", `${Number(r.weight_kg).toFixed(1)}kg`), document.createTextNode(fat + memo));
+    li.append(span);
     const del = el("button", "삭제");
     del.onclick = async () => { await sb.from("weight_logs").delete().eq("id", r.id); loadWeights(); };
     li.append(del);
