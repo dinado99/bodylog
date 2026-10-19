@@ -12,8 +12,8 @@ if (!cfg || cfg.SUPABASE_URL.includes("YOUR-PROJECT")) {
   throw new Error("config.js not configured");
 }
 
-Chart.defaults.font.family = '"Pretendard Variable", Pretendard, system-ui, sans-serif';
-Chart.defaults.color = "#7b8a82";
+Chart.defaults.font.family = '"Galmuri11", system-ui, sans-serif';
+Chart.defaults.color = "#5b3a16";
 
 const sb = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
 const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
@@ -56,22 +56,23 @@ async function loadWeights() {
   renderStats(data);
   if (chart) chart.destroy();
   const ctx = $("chart").getContext("2d");
-  const grad = ctx.createLinearGradient(0, 0, 0, 220);
-  grad.addColorStop(0, "rgba(79,157,122,.28)");
-  grad.addColorStop(1, "rgba(79,157,122,0)");
   chart = new Chart(ctx, {
     type: "line",
     data: {
       labels: data.map((r) => r.log_date.slice(5)),
       datasets: [{
         data: data.map((r) => Number(r.weight_kg)),
-        borderColor: "#4f9d7a", backgroundColor: grad, fill: true,
-        tension: 0.4, borderWidth: 3, pointRadius: 4, pointBackgroundColor: "#fff", pointBorderColor: "#4f9d7a", pointBorderWidth: 2,
+        borderColor: "#35801f", backgroundColor: "#35801f", stepped: true, borderWidth: 4,
+        pointStyle: "rect", pointRadius: 5, pointBackgroundColor: "#ffd23f", pointBorderColor: "#3b2412", pointBorderWidth: 2,
       }],
     },
     options: {
+      animation: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.y} kg` } } },
-      scales: { x: { grid: { display: false }, border: { display: false } }, y: { grid: { color: "#f0eee7" }, border: { display: false } } },
+      scales: {
+        x: { grid: { color: "#ecd49a", borderDash: [4, 4] }, border: { color: "#b9803a", width: 3 } },
+        y: { grid: { color: "#ecd49a", borderDash: [4, 4] }, border: { color: "#b9803a", width: 3 } },
+      },
     },
   });
 }
