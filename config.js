@@ -3,5 +3,5 @@
 // service_role 키는 절대 넣지 마세요.
 window.BODYLOG_CONFIG = {
   SUPABASE_URL: "https://YOUR-PROJECT.supabase.co",
-  SUPABASE_ANON_KEY: "YOUR-ANON-KEY",
+  SUPABASE_ANON_KEY: "sb_publishable_iS1NESe9vOj2kMm-7eBqXg_ExGnSxIF",
 };
