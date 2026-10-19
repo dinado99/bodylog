@@ -1,3 +1,11 @@
 .DS_Store
 .vscode/
 .idea/
+
+# 개인 기록은 절대 커밋하지 않음 (데이터는 Supabase에만 저장)
+.env
+.env.*
+*.csv
+data/
+records/
+goals.md

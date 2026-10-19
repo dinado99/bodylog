@@ -6,7 +6,6 @@
 index.html / style.css / app.js   # 프론트엔드 (빌드 불필요)
 config.js                         # Supabase URL / anon key
 supabase/schema.sql               # 테이블 + RLS 정책
-data/, records/, templates/       # 수기 기록용 마크다운 템플릿
 ```
 
 ## 설정
@@ -19,3 +18,6 @@ data/, records/, templates/       # 수기 기록용 마크다운 템플릿
 5. GitHub 레포 Settings > Pages 에서 Source를 `Deploy from a branch`, Branch를 `main` / `/ (root)`로 설정해요.
 
 로컬 확인: `python3 -m http.server` 후 http://localhost:8000
+
+## 개인정보 원칙
+이 레포에는 개인 기록이나 개인정보를 올리지 않아요. 모든 사용자 데이터는 Supabase DB에만 저장돼요.
