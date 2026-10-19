@@ -12,8 +12,8 @@ if (!cfg || cfg.SUPABASE_URL.includes("YOUR-PROJECT")) {
   throw new Error("config.js not configured");
 }
 
-Chart.defaults.font.family = '"Galmuri11", system-ui, sans-serif';
-Chart.defaults.color = "#4a2f17";
+Chart.defaults.font.family = '"Pretendard Variable", Pretendard, system-ui, sans-serif';
+Chart.defaults.color = "#7b8a82";
 
 const sb = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
 const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
@@ -24,6 +24,16 @@ function el(tag, text, attrs = {}) {
   if (text != null) e.textContent = text;
   Object.assign(e, attrs);
   return e;
+}
+
+function renderStats(data) {
+  const now = $("s-now"), diff = $("s-diff");
+  if (!data.length) { now.textContent = "-"; diff.textContent = "-"; diff.className = ""; return; }
+  const last = Number(data[data.length - 1].weight_kg);
+  const d = last - Number(data[0].weight_kg);
+  now.textContent = `${last.toFixed(1)}kg`;
+  diff.textContent = `${d > 0 ? "+" : ""}${d.toFixed(1)}kg`;
+  diff.className = d < 0 ? "down" : d > 0 ? "up" : "";
 }
 
 async function loadWeights() {
@@ -41,17 +51,27 @@ async function loadWeights() {
     li.append(del);
     list.append(li);
   });
-  const cs = getComputedStyle(document.documentElement);
-  const cfgChart = {
+  renderStats(data);
+  if (chart) chart.destroy();
+  const ctx = $("chart").getContext("2d");
+  const grad = ctx.createLinearGradient(0, 0, 0, 220);
+  grad.addColorStop(0, "rgba(79,157,122,.28)");
+  grad.addColorStop(1, "rgba(79,157,122,0)");
+  chart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: data.map((r) => r.log_date),
-      datasets: [{ label: "체중(kg)", data: data.map((r) => Number(r.weight_kg)), borderColor: cs.getPropertyValue("--accent").trim(), tension: 0, borderWidth: 3, pointStyle: "rect", pointRadius: 5, backgroundColor: cs.getPropertyValue("--accent").trim() }],
+      labels: data.map((r) => r.log_date.slice(5)),
+      datasets: [{
+        data: data.map((r) => Number(r.weight_kg)),
+        borderColor: "#4f9d7a", backgroundColor: grad, fill: true,
+        tension: 0.4, borderWidth: 3, pointRadius: 4, pointBackgroundColor: "#fff", pointBorderColor: "#4f9d7a", pointBorderWidth: 2,
+      }],
     },
-    options: { plugins: { legend: { display: false } } },
-  };
-  if (chart) chart.destroy();
-  chart = new Chart($("chart"), cfgChart);
+    options: {
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.y} kg` } } },
+      scales: { x: { grid: { display: false }, border: { display: false } }, y: { grid: { color: "#f0eee7" }, border: { display: false } } },
+    },
+  });
 }
 
 async function loadMeals() {
@@ -70,7 +90,8 @@ async function loadMeals() {
     li.append(del);
     list.append(li);
   });
-  $("m-total").textContent = `${date} 합계: ${total} kcal`;
+  $("m-total").textContent = `${date} 합계 ${total} kcal`;
+  $("s-kcal").textContent = date === today() ? `${total}kcal` : "-";
 }
 
 $("weight-form").onsubmit = async (e) => {
