@@ -12,6 +12,9 @@ if (!cfg || cfg.SUPABASE_URL.includes("YOUR-PROJECT")) {
   throw new Error("config.js not configured");
 }
 
+Chart.defaults.font.family = '"Galmuri11", system-ui, sans-serif';
+Chart.defaults.color = "#4a2f17";
+
 const sb = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
 const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 let chart;
@@ -43,7 +46,7 @@ async function loadWeights() {
     type: "line",
     data: {
       labels: data.map((r) => r.log_date),
-      datasets: [{ label: "체중(kg)", data: data.map((r) => Number(r.weight_kg)), borderColor: cs.getPropertyValue("--accent").trim(), tension: 0.25 }],
+      datasets: [{ label: "체중(kg)", data: data.map((r) => Number(r.weight_kg)), borderColor: cs.getPropertyValue("--accent").trim(), tension: 0, borderWidth: 3, pointStyle: "rect", pointRadius: 5, backgroundColor: cs.getPropertyValue("--accent").trim() }],
     },
     options: { plugins: { legend: { display: false } } },
   };
